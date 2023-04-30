@@ -17,5 +17,9 @@ declare namespace NodeJS {
         HASH_SALT: number;
         JWT_AUTH: string;
         JWT_RECOVERY: string;
+
+        AWS_S3_BUCKET: string;
+        AWS_S3_ACCESS_KEY: string;
+        AWS_S3_KEY_SECRET: string;
     }
 }

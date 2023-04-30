@@ -16,7 +16,9 @@ export class AuthService {
     public async validateUser(email: string, password: string): Promise<any> {
         try {
             const user = await this.usersService.findBy({ key: 'email', value: email });
+            console.log(user);
             if (!user || !await bcrypt.compare(password, user.password)) throw new NotFoundException('Usuario o contraseña incorrectos');
+            console.log('validado');
             return this.generateJWT(user);
         } catch (error) {
             throw new InternalServerErrorException('Error al validar el usuario.');
@@ -29,15 +31,13 @@ export class AuthService {
     }
 
     public async generateJWT(user: UsersEntity): Promise<any> {
-        const getUser = await this.usersService.findOne(user.id);
         const payload: PayloadI = {
-            sub: getUser.id,
-            role: getUser.role
+            sub: user.id,
         };
         const accessToken = this.singJWT({ payload, secret: process.env.JWT_AUTH, expiresIn: '7d' });
         return {
             accessToken,
-            User: getUser
+            User: user
         };
     }
 
@@ -45,7 +45,6 @@ export class AuthService {
         const user = await this.usersService.findBy({ key: 'email', value: email });
         const payload: PayloadI = {
             sub: user.id,
-            role: user.role
         }
         const accessToken = this.singJWT({ payload, secret: process.env.JWT_RECOVERY, expiresIn: '1h' });
         return {
