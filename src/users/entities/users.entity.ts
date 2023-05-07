@@ -29,10 +29,10 @@ export class UsersEntity extends BaseEntity implements IUser {
     @Column()
     isOrganizador: boolean;
 
-    @OneToOne(() => FotografoEntity, fotografo => fotografo.usuario, { eager: true })
+    @OneToOne(() => FotografoEntity, fotografo => fotografo.usuario, { cascade: true })
     fotografo: FotografoEntity;
 
-    @ManyToMany(() => RolEntity, rol => rol.usuarios, { eager: true })
+    @ManyToMany(() => RolEntity, rol => rol.usuarios)
     @JoinTable()
     roles: RolEntity[];
 
@@ -41,8 +41,6 @@ export class UsersEntity extends BaseEntity implements IUser {
 
     @OneToMany(() => UsuarioSuscripcionEntity, (usuarioSuscripcion) => usuarioSuscripcion.usuario)
     suscripciones: UsuarioSuscripcionEntity[];
-
-    @OneToOne(() => TarjetaEntity, (tarjeta) => tarjeta.usuario)
 
     @OneToOne(() => TarjetaEntity, (tarjeta) => tarjeta.usuario)
     tarjeta: TarjetaEntity;

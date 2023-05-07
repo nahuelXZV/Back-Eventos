@@ -20,9 +20,9 @@ export class UsuarioSuscripcionEntity extends BaseEntity implements IUsuarioSusc
     @Column()
     fechaFin: Date;
 
-    @ManyToOne(() => UsersEntity, (user) => user.suscripciones)
+    @ManyToOne(() => UsersEntity, (user) => user.suscripciones, { cascade: true })
     usuario: UsersEntity;
 
-    @ManyToOne(() => SuscripcionEntity, (suscripcion) => suscripcion.usuarios)
+    @ManyToOne(() => SuscripcionEntity, (suscripcion) => suscripcion.usuarios, { cascade: true })
     suscripcion: SuscripcionEntity;
 }

@@ -10,7 +10,7 @@ import { BaseEntity } from "../../common/entities/base.entity";
 export class CompraEntity extends BaseEntity implements ICompra {
 
     @Column()
-    fecha: Date;
+    fecha: string;
 
     @Column({ type: 'float' })
     montoTotal: number;
@@ -18,10 +18,10 @@ export class CompraEntity extends BaseEntity implements ICompra {
     @Column()
     metodoPago: string;
 
-    @ManyToOne(() => UsersEntity, (usuario) => usuario.compras)
+    @ManyToOne(() => UsersEntity, (usuario) => usuario.compras, { cascade: true })
     usuario: UsersEntity;
 
-    @ManyToOne(() => EventoEntity, (evento) => evento.compras)
+    @ManyToOne(() => EventoEntity, (evento) => evento.compras, { cascade: true })
     evento: EventoEntity;
 
     @OneToMany(() => CompraFotoEventoEntity, (compra) => compra.compra)

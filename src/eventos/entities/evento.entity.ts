@@ -15,7 +15,7 @@ export class EventoEntity extends BaseEntity implements IEvento {
     nombre: string;
 
     @Column()
-    fecha: Date;
+    fecha: string;
 
     @Column({ type: 'time' })
     hora: string;
@@ -35,7 +35,7 @@ export class EventoEntity extends BaseEntity implements IEvento {
     @Column()
     ubicacionGoogleMaps: string;
 
-    @ManyToOne(() => UsersEntity, (usuario) => usuario.eventos)
+    @ManyToOne(() => UsersEntity, (usuario) => usuario.eventos, { cascade: true })
     usuario: UsersEntity;
 
     @OneToMany(() => AsisteEntity, (asiste) => asiste.evento)

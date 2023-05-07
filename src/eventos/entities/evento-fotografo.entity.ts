@@ -8,11 +8,11 @@ import { BaseEntity } from "../../common/entities/base.entity";
 @Entity('evento_fotografo')
 export class EventoFotografoEntity extends BaseEntity implements IEventoFotografo {
     @Column()
-    fecha: Date;
+    fecha: string;
 
-    @ManyToOne(() => EventoEntity, evento => evento.fotografos)
+    @ManyToOne(() => EventoEntity, evento => evento.fotografos, { cascade: true })
     evento: EventoEntity;
 
-    @ManyToOne(() => FotografoEntity, fotografo => fotografo.eventoFotografo)
+    @ManyToOne(() => FotografoEntity, fotografo => '', { cascade: true })
     fotografo: FotografoEntity;
 }

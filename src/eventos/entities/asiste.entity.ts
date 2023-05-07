@@ -9,11 +9,11 @@ import { BaseEntity } from "../../common/entities/base.entity";
 export class AsisteEntity extends BaseEntity implements IAsiste {
 
     @Column()
-    fecha_aceptado: Date;
+    fecha_aceptado: string;
 
-    @ManyToOne(() => EventoEntity, evento => evento.asistentes)
+    @ManyToOne(() => EventoEntity, evento => evento.asistentes, { cascade: true })
     evento: EventoEntity;
 
-    @ManyToOne(() => UsersEntity)
+    @ManyToOne(() => UsersEntity, user => '', { cascade: true })
     usuario: UsersEntity;
 }

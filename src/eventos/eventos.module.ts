@@ -20,14 +20,16 @@ import { CompraController } from './controllers/compra.controller';
 import { EventoFotografoController } from './controllers/evento-fotografo.controller';
 import { EventoController } from './controllers/evento.controller';
 import { FotoEventoController } from './controllers/foto-evento.controller';
+import { PrecioService } from './services/precio.service';
+import { PrecioController } from './controllers/precio.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([AsisteEntity, CompraEntity, CompraFotoEventoEntity, EventoFotografoEntity, EventoEntity, FotoEventoEntity, PrecioEntity]),
     ProvidersModule
   ],
-  controllers: [AsisteController, CompraFotoEventoController, CompraController, EventoFotografoController, EventoController, FotoEventoController],
-  providers: [AsisteService, CompraFotoEventoService, CompraService, EventoFotografoService, EventoService, FotoEventoService],
+  controllers: [AsisteController, CompraFotoEventoController, CompraController, EventoFotografoController, EventoController, FotoEventoController, PrecioController],
+  providers: [AsisteService, CompraFotoEventoService, CompraService, EventoFotografoService, EventoService, FotoEventoService, PrecioService],
   exports: [AsisteService, CompraFotoEventoService, CompraService, EventoFotografoService, EventoService, FotoEventoService]
 })
 export class EventosModule { }

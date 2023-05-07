@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateRolDto } from '../dto/create-rol.dto';
 import { UpdateRolDto } from '../dto/update-rol.dto';
 import { RolEntity } from '../entities/rol.entity';
@@ -35,6 +35,18 @@ export class RolService {
     try {
       const rol = await this.userRepository.createQueryBuilder('rol').where('rol.id = :id', { id }).andWhere('rol.isDeleted = false').getOne();
       if (!rol) throw new BadRequestException('Rol no encontrado.');
+      return rol;
+    } catch (error) {
+      this.handlerError(error);
+    }
+  }
+
+
+  public async findBy({ key, value }: { key: keyof CreateRolDto; value: any }) {
+    try {
+      const rol: RolEntity = await this.userRepository.createQueryBuilder('rol').where({ [key]: value }).andWhere(
+        'rol.isDeleted = false').getOne();
+      if (!rol) throw new NotFoundException('Usuario no encontrado.');
       return rol;
     } catch (error) {
       this.handlerError(error);

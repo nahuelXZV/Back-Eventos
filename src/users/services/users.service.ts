@@ -11,7 +11,7 @@ import { FotografoEntity } from '../entities/fotografo.entity';
 @Injectable()
 export class UsersService {
     private readonly logger = new Logger('UsersService');
-    relations = ['roles', 'fotografo', 'fotos'];
+    relations = ['roles', 'fotos'];
     where = { isDeleted: false, roles: { isDeleted: false }, fotografo: { isDeleted: false }, fotos: { isDeleted: false } };
 
     constructor(
@@ -35,18 +35,20 @@ export class UsersService {
             const { role, fotografo, ...rest } = body;
             rest.password = await bcrypt.hash(body.password, +process.env.HASH_SALT); // Hash password
             const user: UsersEntity = await this.userRepository.save({ ...rest, isOrganizador: false });
-            console.log(user);
-            const userDB = await this.findOne(user.id);
-            console.log(userDB);
-            if (fotografo) await this.fotografoRepository.save({ fotografo, usuario: userDB });
-            if (!role) return userDB;
+            const usuario: UsersEntity = await this.findOne(user.id);
+            if (fotografo) {
+                const fotografoEntity = await this.fotografoRepository.save({ ...fotografo, usuario });
+                usuario.fotografo = fotografoEntity;
+                console.log(usuario);
+            }
+            if (!role) return usuario;
             role.forEach(async (rol: string) => {
                 const rolDB = await this.rolService.findOne(rol);
-                if (rolDB.nombre === 'organizador') userDB.isOrganizador = true;
-                userDB.roles.push(rolDB);
+                if (rolDB.nombre === 'organizador') usuario.isOrganizador = true;
+                usuario.roles.push(rolDB);
             });
-            await this.userRepository.save(userDB);
-            return userDB;
+            await this.userRepository.save(usuario);
+            return usuario;
         } catch (error) {
             this.handlerError(error);
         }
@@ -114,6 +116,27 @@ export class UsersService {
             const user: UsersEntity = await this.userRepository.createQueryBuilder('user').where('user.id = :id', { id }).andWhere('user.isDeleted = false').getOne();
             if (!user) throw new UnauthorizedException('Usuario asociado al token no encontrado.');
             return user;
+        } catch (error) {
+            this.handlerError(error);
+        }
+    }
+
+    public async findFotografos(id: string) {
+        try {
+            console.log(id);
+            const fotografo: FotografoEntity = await this.fotografoRepository.findOne({ where: { id }, relations: ['usuario'] });
+            if (!fotografo) throw new NotFoundException('No hay fotografos registrados.');
+            return fotografo;
+        } catch (error) {
+            this.handlerError(error);
+        }
+    }
+
+    public async findFotografoBy(key: any, value: string) {
+        try {
+            const fotografo: FotografoEntity = await this.fotografoRepository.findOne({ where: { [key]: value }, relations: ['usuario'] });
+            if (!fotografo) throw new NotFoundException('Fotografo no encontrado.');
+            return fotografo;
         } catch (error) {
             this.handlerError(error);
         }

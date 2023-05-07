@@ -5,10 +5,12 @@ import * as jwt from 'jsonwebtoken';
 
 import { UsersEntity } from 'src/users/entities/users.entity';
 import { UsersService } from 'src/users/services/users.service';
-import { PayloadI } from '../interfaces/auth.interface';
+import { AuthTokenResult, IUseToken, PayloadI } from '../interfaces/auth.interface';
+import { useToken } from 'src/utils/use.token';
 
 @Injectable()
 export class AuthService {
+
     constructor(
         private readonly usersService: UsersService,
     ) { }
@@ -25,6 +27,19 @@ export class AuthService {
         }
     }
 
+    async checkToken(tokenUser: { token: string }) {
+        try {
+            const { token } = tokenUser;
+            const managerToken: IUseToken | string = useToken(token);
+            console.log(managerToken);
+            if (typeof managerToken === 'string') return false;
+            if (managerToken.isExpired) return false;
+            const user = await this.usersService.findOneAuth(managerToken.sub);
+            return user;
+        } catch (error) {
+            throw new InternalServerErrorException('Error al validar el token.');
+        }
+    }
 
     public singJWT({ payload, secret, expiresIn }: { payload: jwt.JwtPayload, secret: string, expiresIn: number | string }) {
         return jwt.sign(payload, secret, { expiresIn });

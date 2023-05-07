@@ -24,7 +24,6 @@ export class S3Service {
             ACL: "public-read",
             CreateBucketConfiguration: { LocationConstraint: "us-east-2" }
         };
-        console.log(params);
         try {
             let s3Response = await this.s3.upload(params).promise();
             console.log(s3Response);

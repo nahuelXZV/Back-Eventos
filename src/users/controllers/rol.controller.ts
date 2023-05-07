@@ -22,6 +22,12 @@ export class RolController {
     return this.rolService.findOne(id);
   }
 
+  @Get('by/:key/:value')
+  findBy(@Param('key') key: keyof CreateRolDto, @Param('value') value: string) {
+    return this.rolService.findBy({ key, value });
+  }
+
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRolDto: UpdateRolDto) {
     return this.rolService.update(id, updateRolDto);

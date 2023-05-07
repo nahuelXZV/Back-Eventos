@@ -14,4 +14,5 @@ export class PrecioEntity extends BaseEntity implements IPrecio {
 
     @Column()
     descripcion: string;
+    fotosEventos: any;
 }

@@ -11,7 +11,7 @@ export class RolEntity extends BaseEntity implements IRol {
     @Column()
     nombre: string;
 
-    @ManyToMany(() => UsersEntity, usuario => usuario.roles)
+    @ManyToMany(() => UsersEntity, usuario => usuario.roles, { cascade: true })
     @JoinTable()
     usuarios: UsersEntity[];
 }

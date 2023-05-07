@@ -5,7 +5,7 @@ import { UpdateEventoFotografoDto } from '../dto/update-evento-fotografo.dto';
 
 @Controller('evento-fotografo')
 export class EventoFotografoController {
-  constructor(private readonly eventoFotografoService: EventoFotografoService) {}
+  constructor(private readonly eventoFotografoService: EventoFotografoService) { }
 
   @Post()
   create(@Body() createEventoFotografoDto: CreateEventoFotografoDto) {
@@ -19,16 +19,21 @@ export class EventoFotografoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.eventoFotografoService.findOne(+id);
+    return this.eventoFotografoService.findOne(id);
+  }
+
+  @Get('by/:key/:value')
+  findFotografoByEvento(@Param('key') key: any, @Param('value') value: string) {
+    return this.eventoFotografoService.findFotografoByEvento(key, value);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventoFotografoDto: UpdateEventoFotografoDto) {
-    return this.eventoFotografoService.update(+id, updateEventoFotografoDto);
+    return this.eventoFotografoService.update(id, updateEventoFotografoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.eventoFotografoService.remove(+id);
+    return this.eventoFotografoService.remove(id);
   }
 }

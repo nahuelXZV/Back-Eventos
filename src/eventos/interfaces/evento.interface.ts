@@ -6,7 +6,7 @@ import { FotoEventoEntity } from "../entities/foto-evento.entity";
 
 export interface IEvento {
     nombre: string;
-    fecha: Date;
+    fecha: string;
     hora: string;
     direccion: string;
     descripcion: string;

@@ -5,7 +5,7 @@ import { UpdateAsisteDto } from '../dto/update-asiste.dto';
 
 @Controller('asiste')
 export class AsisteController {
-  constructor(private readonly asisteService: AsisteService) {}
+  constructor(private readonly asisteService: AsisteService) { }
 
   @Post()
   create(@Body() createAsisteDto: CreateAsisteDto) {
@@ -19,16 +19,21 @@ export class AsisteController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.asisteService.findOne(+id);
+    return this.asisteService.findOne(id);
+  }
+
+  @Get('by/:key/:value')
+  findAsistenteBy(@Param('key') key: any, @Param('value') value: string) {
+    return this.asisteService.findAsisteBy(key, value);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAsisteDto: UpdateAsisteDto) {
-    return this.asisteService.update(+id, updateAsisteDto);
+    return this.asisteService.update(id, updateAsisteDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.asisteService.remove(+id);
+    return this.asisteService.remove(id);
   }
 }

@@ -17,9 +17,9 @@ export class CompraFotoEventoEntity extends BaseEntity implements ICompraFotoEve
     @Column({ type: 'float' })
     precio: number;
 
-    @ManyToOne(() => CompraEntity, compra => compra.fotos)
+    @ManyToOne(() => CompraEntity, compra => compra.fotos, { cascade: true })
     compra: CompraEntity;
 
-    @ManyToOne(() => FotoEventoEntity)
+    @ManyToOne(() => FotoEventoEntity, fotoEvento => '', { cascade: true })
     fotoEvento: FotoEventoEntity;
 }

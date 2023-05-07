@@ -20,6 +20,6 @@ export class FotoUsuarioEntity extends BaseEntity implements IFotoUsuario {
     @Column()
     dir_foto_normal: string;
 
-    @ManyToOne(() => UsersEntity, (user) => user.fotos)
+    @ManyToOne(() => UsersEntity, (user) => user.fotos, { cascade: true })
     usuario: UsersEntity;
 }

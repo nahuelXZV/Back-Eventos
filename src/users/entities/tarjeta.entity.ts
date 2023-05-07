@@ -19,7 +19,7 @@ export class TarjetaEntity extends BaseEntity implements ITarjeta {
     @Column()
     codigoSeguridad: string;
     
-    @OneToOne(() => UsersEntity, (user) => user.tarjeta)
+    @OneToOne(() => UsersEntity, (user) => user.tarjeta, { cascade: true })
     @JoinColumn()
     usuario: UsersEntity;
 }

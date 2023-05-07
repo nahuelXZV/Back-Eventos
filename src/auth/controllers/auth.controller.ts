@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
 import { AuthDTO } from '../dto/auth.dto';
@@ -18,10 +18,15 @@ export class AuthController {
         return this.authService.validateUser(email, password);
     }
 
+    @Post('checkToken')
+    public async checkToken(@Body() token: { token: string }) {
+        return this.authService.checkToken(token);
+    }
+
     // recover password
     // @Post('recover')
     // public async recover(@Body() { username }) {
-        // return await this.authService.recoverPassword(username);
+    // return await this.authService.recoverPassword(username);
     // }
 
 }

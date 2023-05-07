@@ -10,6 +10,7 @@ export class FotoUsuarioController {
   @UseInterceptors(FilesInterceptor('fotos', 10, { fileFilter: fileFilter, }))
   @Post()
   create(@UploadedFiles() fotos: Array<Express.Multer.File>, @Query('user_id', ParseUUIDPipe) user_id: string) {
+    console.log(fotos);
     return this.fotoUsuarioService.create(fotos, user_id);
   }
 
