@@ -4,6 +4,7 @@ import { UsersEntity } from "../entities/users.entity";
 export interface IFotografo {
     tipo: string;
     direccion: string;
+    telefono: string;
     correo_paypal?: string;
     usuario: UsersEntity;
 }

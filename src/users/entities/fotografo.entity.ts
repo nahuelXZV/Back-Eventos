@@ -16,6 +16,9 @@ export class FotografoEntity extends BaseEntity implements IFotografo {
     direccion: string;
 
     @Column({ nullable: true })
+    telefono: string;
+
+    @Column({ nullable: true })
     correo_paypal?: string;
 
     @OneToOne(() => UsersEntity, user => user.fotografo)

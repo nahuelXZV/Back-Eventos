@@ -10,6 +10,7 @@ import { FotoUsuarioEntity } from "./foto-usuario.entity";
 import { TarjetaEntity } from "./tarjeta.entity";
 import { UsuarioSuscripcionEntity } from "./usuario-suscripcion.entity";
 import { FotoEventoEntity } from "../../eventos/entities/foto-evento.entity";
+import { CompraFotoEventoEntity } from "../../eventos/entities/compra-foto-evento.entity";
 
 @Entity({ name: 'user' })
 export class UsersEntity extends BaseEntity implements IUser {
@@ -57,5 +58,8 @@ export class UsersEntity extends BaseEntity implements IUser {
     @ManyToMany(() => FotoEventoEntity, (foto) => foto.usuarios)
     @JoinTable()
     fotosEventos: FotoEventoEntity[];
+
+    @OneToMany(() => CompraFotoEventoEntity, (foto) => foto.usuario)
+    fotosComprada: CompraFotoEventoEntity[];
 
 }

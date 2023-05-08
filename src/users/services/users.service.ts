@@ -102,7 +102,7 @@ export class UsersService {
 
     public async findBy({ key, value }: { key: keyof UserCreateDto; value: any }) {
         try {
-            const user: UsersEntity = await this.userRepository.createQueryBuilder('user').addSelect('user.password').where({ [key]: value }).andWhere(
+            const user: UsersEntity = await this.userRepository.createQueryBuilder('user').addSelect('user.password').leftJoinAndSelect('user.roles', 'roles').where({ [key]: value }).andWhere(
                 'user.isDeleted = false').getOne();
             if (!user) throw new NotFoundException('Usuario no encontrado.');
             return user;
@@ -113,7 +113,8 @@ export class UsersService {
 
     public async findOneAuth(id: string): Promise<UsersEntity> {
         try {
-            const user: UsersEntity = await this.userRepository.createQueryBuilder('user').where('user.id = :id', { id }).andWhere('user.isDeleted = false').getOne();
+            const user: UsersEntity = await this.userRepository.createQueryBuilder('user').leftJoinAndSelect('user.roles', 'roles')
+                .where('user.id = :id', { id }).andWhere('user.isDeleted = false').getOne();
             if (!user) throw new UnauthorizedException('Usuario asociado al token no encontrado.');
             return user;
         } catch (error) {

@@ -1,3 +1,4 @@
+import { UsersEntity } from "../../users/entities/users.entity";
 import { CompraEntity } from "../entities/compra.entity";
 import { FotoEventoEntity } from "../entities/foto-evento.entity";
 
@@ -7,4 +8,5 @@ export interface ICompraFotoEvento {
     precio: number;
     compra: CompraEntity;
     fotoEvento: FotoEventoEntity;
+    usuario: UsersEntity;
 }
