@@ -22,6 +22,11 @@ export class EventoController {
     return this.eventoService.findOne(id);
   }
 
+  @Get('by/:key/:value')
+  findAsistenteBy(@Param('key') key: any, @Param('value') value: string) {
+    return this.eventoService.findEventoBy(key, value);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventoDto: UpdateEventoDto) {
     return this.eventoService.update(id, updateEventoDto);

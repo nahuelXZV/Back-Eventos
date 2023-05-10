@@ -24,22 +24,24 @@ export class FotoEventoService {
 
   async create(fotos: Array<Express.Multer.File>, createFotoEvento: CreateFotoEventoDto) {
     try {
-      const { evento, fotografo, precio } = createFotoEvento;
+      const { evento, fotografo, precioDigital, precioImpresa } = createFotoEvento;
       const eventoEntity = await this.eventoService.findOne(evento);
       const fotografoEntity = await this.usuarioService.findFotografos(fotografo);
-      const precioEntity = await this.precioService.findOne(precio);
       fotos.forEach(async (foto) => {
         const fotoUsuario = new FotoEventoEntity();
-        const response = await this.s3Service.uploadFile(foto);
-        fotoUsuario.dirFotoNormal = response.Location;
-        fotoUsuario.dirFotoCompresa = response.Location;
+        const compress = await this.s3Service.uploadFile(foto, 'compress', 'eventos/');
+        const normal = await this.s3Service.uploadFile(foto, 'normal', 'eventos/');
+        fotoUsuario.dirFotoNormal = normal.Location;
+        fotoUsuario.dirFotoCompresa = compress.Location;
         fotoUsuario.nombre = foto.originalname;
         fotoUsuario.extension = foto.mimetype;
+        fotoUsuario.precioDigital = +precioDigital;
+        fotoUsuario.precioImpresa = +precioImpresa;
         fotoUsuario.evento = eventoEntity;
-        fotoUsuario.precio = precioEntity;
         fotoUsuario.fotografo = fotografoEntity;
         await this.fotoEventoRepository.save(fotoUsuario);
       });
+      return { message: 'Fotos guardadas' };
     } catch (error) {
       this.handlerError(error);
     }
@@ -61,8 +63,18 @@ export class FotoEventoService {
   async find(evento: string) {
     try {
       const eventoDB: EventoEntity = await this.eventoService.findOne(evento);
-      const fotos = await this.fotoEventoRepository.find({ where: { evento: { id: eventoDB.id } }, relations: ['fotografo', 'precio'] });
+      const fotos = await this.fotoEventoRepository.find({ where: { evento: { id: eventoDB.id } }, relations: ['fotografo', 'usuarios'] });
       return fotos;
+    } catch (error) {
+      this.handlerError(error);
+    }
+  }
+
+  async findOne(id: string) {
+    try {
+      const foto = await this.fotoEventoRepository.findOne({ where: { id } });
+      if (!foto) throw new BadRequestException('No se encontro la foto');
+      return foto;
     } catch (error) {
       this.handlerError(error);
     }

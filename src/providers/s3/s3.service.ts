@@ -1,5 +1,7 @@
-import { Injectable, Req, Res } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as AWS from "aws-sdk";
+import * as sharp from 'sharp';
+import * as UUID from "uuid";
 
 @Injectable()
 export class S3Service {
@@ -9,24 +11,28 @@ export class S3Service {
         secretAccessKey: process.env.AWS_S3_KEY_SECRET,
     });
 
-    async uploadFile(file: Express.Multer.File) {
+
+    async uploadFile(file: Express.Multer.File, type: string, carpeta: string = '') {
         const { originalname } = file;
-        return await this.s3_upload(file.buffer, this.AWS_S3_BUCKET, originalname, file.mimetype);
+        return await this.s3_upload(file.buffer, this.AWS_S3_BUCKET, originalname, file.mimetype, type, carpeta);
     }
 
-    async s3_upload(file, bucket: string, name: string, mimetype: string) {
+    async s3_upload(file: any, bucket: string, name: string, mimetype: string, type: string, carpeta: string = '') {
+        const contentConfiguration = type == 'compress' ? 'inline' : 'attachment';
+        if (type == 'compress') {
+            file = await sharp(file).resize({ width: 1000 }).jpeg({ quality: 80 }).toBuffer();
+        }
         const params = {
             Bucket: bucket,
-            Key: String(name),
+            Key: String(carpeta + name + "-" + UUID.v4()),
             Body: file,
             ContentType: mimetype,
-            ContentDisposition: "inline",
+            ContentDisposition: contentConfiguration,
             ACL: "public-read",
             CreateBucketConfiguration: { LocationConstraint: "us-east-2" }
         };
         try {
             let s3Response = await this.s3.upload(params).promise();
-            console.log(s3Response);
             return s3Response;
         }
         catch (e) {

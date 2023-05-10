@@ -1,6 +1,5 @@
 import { UsersEntity } from "src/users/entities/users.entity";
 import { EventoEntity } from "../entities/evento.entity";
-import { PrecioEntity } from "../entities/precio.entity";
 import { FotografoEntity } from "src/users/entities/fotografo.entity";
 
 export interface IFotoEvento {
@@ -8,8 +7,9 @@ export interface IFotoEvento {
     extension: string;
     dirFotoCompresa: string;
     dirFotoNormal: string;
+    precioDigital: number;
+    precioImpresa: number;
     evento: EventoEntity;
-    precio: PrecioEntity;
     fotografo: FotografoEntity;
     usuarios: UsersEntity[];
 }

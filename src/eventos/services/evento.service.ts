@@ -47,6 +47,15 @@ export class EventoService {
     }
   }
 
+  async findEventoBy(key: any, value: string) {
+    try {
+      const evento = await this.eventoRepository.createQueryBuilder('evento').leftJoinAndSelect('evento.usuario', 'usuario').leftJoinAndSelect('evento.asistentes', 'asistentes').leftJoinAndSelect('evento.compras', 'compras').leftJoinAndSelect('evento.fotografos', 'fotografos').where({ [key]: value }).getMany();
+      return evento;
+    } catch (error) {
+      this.handlerError(error);
+    }
+  }
+
   async update(id: string, updateEventoDto: UpdateEventoDto) {
     try {
       const { usuario, ...resto } = updateEventoDto;

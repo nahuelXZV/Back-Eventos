@@ -11,6 +11,9 @@ export class CreateFotoEventoDto {
     fotografo: string;
 
     @IsString()
-    @IsUUID()
-    precio: string;
+    precioDigital: string;
+
+    @IsString()
+    precioImpresa: string;
+
 }
