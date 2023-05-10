@@ -7,8 +7,10 @@ import { RecoknitionService } from './recoknition/recoknition.service';
 
 @Global()
 @Module({
-  imports: [HttpModule],
+  imports: [
+    HttpModule
+  ],
   providers: [HttpCustomService, S3Service, RecoknitionService],
-  exports: [HttpCustomService, HttpModule, S3Service],
+  exports: [HttpCustomService, HttpModule, S3Service, RecoknitionService],
 })
 export class ProvidersModule { }

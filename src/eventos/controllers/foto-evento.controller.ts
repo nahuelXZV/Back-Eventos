@@ -24,9 +24,15 @@ export class FotoEventoController {
   remove(@Param('id') id: string) {
     // return this.fotoEventoService.remove(id);
   }
+  @Get('test')
+  test() {
+    return this.fotoEventoService.test();
+  }
 
   @Get(':evento')
   find(@Param('evento') evento: string) {
     return this.fotoEventoService.find(evento);
   }
+
+
 }

@@ -12,19 +12,19 @@ export class S3Service {
     });
 
 
-    async uploadFile(file: Express.Multer.File, type: string, carpeta: string = '') {
+    async uploadFile(file: Express.Multer.File, type: string, name: string = '') {
         const { originalname } = file;
-        return await this.s3_upload(file.buffer, this.AWS_S3_BUCKET, originalname, file.mimetype, type, carpeta);
+        return await this.s3_upload(file.buffer, this.AWS_S3_BUCKET, name, file.mimetype, type);
     }
 
-    async s3_upload(file: any, bucket: string, name: string, mimetype: string, type: string, carpeta: string = '') {
+    async s3_upload(file: any, bucket: string, name: string, mimetype: string, type: string) {
         const contentConfiguration = type == 'compress' ? 'inline' : 'attachment';
         if (type == 'compress') {
             file = await sharp(file).resize({ width: 1000 }).jpeg({ quality: 80 }).toBuffer();
         }
         const params = {
             Bucket: bucket,
-            Key: String(carpeta + name + "-" + UUID.v4()),
+            Key: String(name),
             Body: file,
             ContentType: mimetype,
             ContentDisposition: contentConfiguration,
@@ -38,5 +38,15 @@ export class S3Service {
         catch (e) {
             console.log(e);
         }
+    }
+
+    async getUsuariosImages(): Promise<string[]> {
+        const params: AWS.S3.ListObjectsV2Request = {
+            Bucket: process.env.AWS_S3_BUCKET,
+            Prefix: 'usuarios/',
+        };
+
+        const result = await this.s3.listObjectsV2(params).promise();
+        return result.Contents?.map((obj) => obj.Key) || [];
     }
 }

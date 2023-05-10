@@ -56,7 +56,6 @@ export class UsersEntity extends BaseEntity implements IUser {
     eventos: any;
 
     @ManyToMany(() => FotoEventoEntity, (foto) => foto.usuarios)
-    @JoinTable()
     fotosEventos: FotoEventoEntity[];
 
     @OneToMany(() => CompraFotoEventoEntity, (foto) => foto.usuario)

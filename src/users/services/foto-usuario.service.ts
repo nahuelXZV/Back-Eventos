@@ -21,8 +21,9 @@ export class FotoUsuarioService {
       const user = await this.userService.findOne(user_id);
       fotos.forEach(async (foto) => {
         const fotoUsuario = new FotoUsuarioEntity();
-        const compress = await this.s3Service.uploadFile(foto, 'compress', 'usuarios/');
-        const normal = await this.s3Service.uploadFile(foto, 'normal', 'usuarios/');
+        const name = 'usuarios/' + foto.originalname.split('.') + "| " + user.id;
+        const compress = await this.s3Service.uploadFile(foto, 'compress', name);
+        const normal = await this.s3Service.uploadFile(foto, 'normal', name);
         fotoUsuario.dir_foto_normal = normal.Location;
         fotoUsuario.dir_foto_compresa = compress.Location;
         fotoUsuario.nombre = foto.originalname;
