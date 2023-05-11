@@ -20,8 +20,7 @@ export class AuthService {
             const user = await this.usersService.findBy({ key: 'email', value: email });
             if (!user || !await bcrypt.compare(password, user.password)) throw new NotFoundException('Usuario o contraseña incorrectos');
             if (tokenMobile) {
-                user.tokenMobile = tokenMobile;
-                await this.usersService.update(user.id, user);
+                await this.usersService.update(user.id, { tokenMobile });
             }
             return this.generateJWT(user);
         } catch (error) {

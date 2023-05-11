@@ -14,7 +14,7 @@ export class AuthController {
     ) { }
 
     @Post('login')
-    public async login(@Body() { email, password }: AuthDTO, @Query('tokenMobile') tokenMobile: any): Promise<AuthI> {
+    public async login(@Body() { email, password }: AuthDTO, @Query('tokenMobile') tokenMobile: string): Promise<AuthI> {
         return this.authService.validateUser(email, password, tokenMobile);
     }
 
@@ -23,7 +23,7 @@ export class AuthController {
         return this.authService.checkToken(token);
     }
 
-    // recover password
+    // recover password  @Query('limit') limit: string
     // @Post('recover')
     // public async recover(@Body() { username }) {
     // return await this.authService.recoverPassword(username);
