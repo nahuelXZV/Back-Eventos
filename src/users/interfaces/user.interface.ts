@@ -10,6 +10,7 @@ export interface IUser {
     nombre: string;
     apellido: string;
     email: string;
+    tokenMobile: string;
     password: string;
     isOrganizador: boolean;
     fotografo?: FotografoEntity;

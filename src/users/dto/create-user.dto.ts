@@ -18,6 +18,10 @@ export class UserCreateDto {
     @IsEmail()
     email: string;
 
+    @IsString()
+    @IsOptional()
+    tokenMobile: string;
+
     @IsNotEmpty()
     @IsString()
     @MinLength(6)

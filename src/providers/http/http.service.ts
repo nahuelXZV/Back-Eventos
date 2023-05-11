@@ -18,5 +18,14 @@ export class HttpCustomService {
         }
     }
 
+    public async apiPost(url: string, data: any, header: any): Promise<any> {
+        try {
+            const response = await firstValueFrom(this.httpService.post(url, data, header));
+            return response.data;
+        } catch (error) {
+            throw new InternalServerErrorException('Error al obtener los datos');
+        }
+    }
+
 
 }

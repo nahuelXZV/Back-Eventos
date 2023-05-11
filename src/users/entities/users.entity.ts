@@ -30,6 +30,9 @@ export class UsersEntity extends BaseEntity implements IUser {
     @Column()
     isOrganizador: boolean;
 
+    @Column({ nullable: true })
+    tokenMobile: string;
+
     @OneToOne(() => FotografoEntity, fotografo => fotografo.usuario, { cascade: true })
     fotografo: FotografoEntity;
 

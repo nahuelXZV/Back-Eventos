@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
 import { AuthDTO } from '../dto/auth.dto';
@@ -14,8 +14,8 @@ export class AuthController {
     ) { }
 
     @Post('login')
-    public async login(@Body() { email, password }: AuthDTO) {
-        return this.authService.validateUser(email, password);
+    public async login(@Body() { email, password }: AuthDTO, @Query('tokenMobile') tokenMobile: any): Promise<AuthI> {
+        return this.authService.validateUser(email, password, tokenMobile);
     }
 
     @Post('checkToken')

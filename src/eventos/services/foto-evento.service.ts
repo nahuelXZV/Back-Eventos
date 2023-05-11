@@ -10,6 +10,7 @@ import { PrecioService } from './precio.service';
 import { EventoEntity } from '../entities/evento.entity';
 import { RecoknitionService } from 'src/providers/recoknition/recoknition.service';
 import { UsersEntity } from 'src/users/entities/users.entity';
+import { NotificationsService } from 'src/providers/notifications/notifications.service';
 
 @Injectable()
 export class FotoEventoService {
@@ -21,7 +22,8 @@ export class FotoEventoService {
     private readonly recoknitionService: RecoknitionService,
     private readonly eventoService: EventoService,
     private readonly usuarioService: UsersService,
-    private readonly precioService: PrecioService
+    private readonly precioService: PrecioService,
+    private readonly notificationService: NotificationsService
   ) { }
 
 
@@ -89,8 +91,8 @@ export class FotoEventoService {
 
   async test() {
     try {
-      const fotos = await this.recoknitionService.searchEventosUsuariosFaces('eventos/4x4.jpg-a21e314b-dc99-4100-a73a-ffc574e94be4');
-      return this.getUsers(fotos);
+      const fotos = await this.notificationService.sendNotification({ url: 'https://tus-recuerdos.vercel.app/eventos/', token: "fTEMf4FGQh67t-DT73TNob:APA91bFz1OnwkPL7zHubdRVKA62cCM4NJB6Ld6nff9QUIzzs8dG4X-NIUo5jBOcV9vSt6sWD4AMPhC3xrvZk3JS-O6BT5IeloZzcL8kZStcQO12xQEgiqtOAPDAeZi0u7e2_WoC2fxH0" });
+      return fotos;
     } catch (error) {
       this.handlerError(error);
     }
@@ -124,6 +126,7 @@ export class FotoEventoService {
     usuarios.forEach(async (usuario: string) => {
       const user: UsersEntity = await this.usuarioService.findOne(usuario);
       fotoEntity.usuarios.push(user);
+      if (user.tokenMobile) await this.notificationService.sendNotification({ url: `https://tus-recuerdos.vercel.app/eventos/${evento.id}`, token: user.tokenMobile });
     });
     await this.fotoEventoRepository.save(fotoEntity);
   }

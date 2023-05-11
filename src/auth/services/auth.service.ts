@@ -15,12 +15,14 @@ export class AuthService {
         private readonly usersService: UsersService,
     ) { }
 
-    public async validateUser(email: string, password: string): Promise<any> {
+    public async validateUser(email: string, password: string, tokenMobile?: string): Promise<any> {
         try {
             const user = await this.usersService.findBy({ key: 'email', value: email });
-            console.log(user);
             if (!user || !await bcrypt.compare(password, user.password)) throw new NotFoundException('Usuario o contraseña incorrectos');
-            console.log('validado');
+            if (tokenMobile) {
+                user.tokenMobile = tokenMobile;
+                await this.usersService.update(user.id, user);
+            }
             return this.generateJWT(user);
         } catch (error) {
             throw new InternalServerErrorException('Error al validar el usuario.');
