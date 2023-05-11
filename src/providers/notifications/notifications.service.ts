@@ -21,8 +21,8 @@ export class NotificationsService {
         const data = {
             "to": dataFoto.token,
             "notification": {
-                "title": "Portugal vs. Denmark",
-                "body": "5 to 1",
+                "title": "Hey! Apareciste en una foto",
+                "body": "Guarda tus recuerdos",
             },
             "data": {
                 'url': dataFoto.url,
