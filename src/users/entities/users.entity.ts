@@ -7,12 +7,11 @@ import { IUser } from "../interfaces/user.interface";
 import { FotografoEntity } from "./fotografo.entity";
 import { RolEntity } from "./rol.entity";
 import { FotoUsuarioEntity } from "./foto-usuario.entity";
-import { TarjetaEntity } from "./tarjeta.entity";
 import { UsuarioSuscripcionEntity } from "./usuario-suscripcion.entity";
 import { FotoEventoEntity } from "../../eventos/entities/foto-evento.entity";
 import { CompraFotoEventoEntity } from "../../eventos/entities/compra-foto-evento.entity";
 
-@Entity({ name: 'user' })
+@Entity({ name: 'usuario' })
 export class UsersEntity extends BaseEntity implements IUser {
     @Column()
     nombre: string;
@@ -26,6 +25,9 @@ export class UsersEntity extends BaseEntity implements IUser {
     @Exclude()
     @Column()
     password: string;
+
+    @Column()
+    direccion: string;
 
     @Column()
     isOrganizador: boolean;
@@ -45,9 +47,6 @@ export class UsersEntity extends BaseEntity implements IUser {
 
     @OneToMany(() => UsuarioSuscripcionEntity, (usuarioSuscripcion) => usuarioSuscripcion.usuario)
     suscripciones: UsuarioSuscripcionEntity[];
-
-    @OneToOne(() => TarjetaEntity, (tarjeta) => tarjeta.usuario)
-    tarjeta: TarjetaEntity;
 
     @OneToMany(() => UsuarioSuscripcionEntity, (usuarioSuscripcion) => usuarioSuscripcion.usuario)
     asistencias: any;

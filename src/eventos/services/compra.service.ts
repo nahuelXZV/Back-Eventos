@@ -9,7 +9,6 @@ import { EventoService } from './evento.service';
 import { CompraFotoEventoEntity } from '../entities/compra-foto-evento.entity';
 import { UsersEntity } from 'src/users/entities/users.entity';
 import { EventoEntity } from '../entities/evento.entity';
-import { EventoFotografoService } from './evento-fotografo.service';
 import { CreateCompraFotoEventoDto } from '../dto/create-compra-foto-evento.dto';
 import { FotoEventoEntity } from '../entities/foto-evento.entity';
 import { FotoEventoService } from './foto-evento.service';

@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { S3Service } from 'src/providers/s3/s3.service';
 import { EventoService } from './evento.service';
 import { UsersService } from 'src/users/services/users.service';
-import { PrecioService } from './precio.service';
 import { EventoEntity } from '../entities/evento.entity';
 import { RecoknitionService } from 'src/providers/recoknition/recoknition.service';
 import { UsersEntity } from 'src/users/entities/users.entity';
@@ -22,7 +21,6 @@ export class FotoEventoService {
     private readonly recoknitionService: RecoknitionService,
     private readonly eventoService: EventoService,
     private readonly usuarioService: UsersService,
-    private readonly precioService: PrecioService,
     private readonly notificationService: NotificationsService
   ) { }
 
@@ -45,6 +43,7 @@ export class FotoEventoService {
         fotoUsuario.precioImpresa = +precioImpresa;
         fotoUsuario.evento = eventoEntity;
         fotoUsuario.fotografo = fotografoEntity;
+        fotoUsuario.tamaño = foto.size.toString() ?? null;
         const newFoto = await this.fotoEventoRepository.save(fotoUsuario);
         const fotos = await this.recoknitionService.searchEventosUsuariosFaces(name);
         const usuariosId = this.getUsers(fotos);

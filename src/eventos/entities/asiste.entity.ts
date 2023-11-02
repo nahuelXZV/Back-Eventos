@@ -11,6 +11,9 @@ export class AsisteEntity extends BaseEntity implements IAsiste {
     @Column()
     fecha_aceptado: string;
 
+    @Column({ nullable: true })
+    hora_ingreso: string;
+
     @ManyToOne(() => EventoEntity, evento => evento.asistentes, { cascade: true })
     evento: EventoEntity;
 

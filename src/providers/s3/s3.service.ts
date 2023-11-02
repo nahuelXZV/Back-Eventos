@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from "aws-sdk";
 import * as sharp from 'sharp';
-import * as UUID from "uuid";
 
 @Injectable()
 export class S3Service {
@@ -11,9 +10,7 @@ export class S3Service {
         secretAccessKey: process.env.AWS_S3_KEY_SECRET,
     });
 
-
     async uploadFile(file: Express.Multer.File, type: string, name: string = '') {
-        const { originalname } = file;
         return await this.s3_upload(file.buffer, this.AWS_S3_BUCKET, name, file.mimetype, type);
     }
 
@@ -21,6 +18,7 @@ export class S3Service {
         const contentConfiguration = type == 'compress' ? 'inline' : 'attachment';
         if (type == 'compress') {
             file = await sharp(file).resize({ width: 1000 }).jpeg({ quality: 80 }).toBuffer();
+            name = name + "| Compress";
         }
         const params = {
             Bucket: bucket,
@@ -45,7 +43,6 @@ export class S3Service {
             Bucket: process.env.AWS_S3_BUCKET,
             Prefix: 'usuarios/',
         };
-
         const result = await this.s3.listObjectsV2(params).promise();
         return result.Contents?.map((obj) => obj.Key) || [];
     }

@@ -15,9 +15,6 @@ export class CompraEntity extends BaseEntity implements ICompra {
     @Column({ type: 'float' })
     montoTotal: number;
 
-    @Column()
-    metodoPago: string;
-
     @ManyToOne(() => UsersEntity, (usuario) => usuario.compras, { cascade: true })
     usuario: UsersEntity;
 

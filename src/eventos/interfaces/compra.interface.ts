@@ -5,7 +5,6 @@ import { EventoEntity } from "../entities/evento.entity";
 export interface ICompra {
     fecha: string;
     montoTotal: number;
-    metodoPago: string;
     usuario: UsersEntity;
     evento: EventoEntity;
     fotos: CompraFotoEventoEntity[];

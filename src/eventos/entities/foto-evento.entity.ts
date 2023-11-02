@@ -15,6 +15,9 @@ export class FotoEventoEntity extends BaseEntity implements IFotoEvento {
     @Column()
     extension: string;
 
+    @Column({ nullable: true })
+    tamaño: string;
+
     @Column()
     dirFotoCompresa: string;
 

@@ -7,6 +7,9 @@ export class CreateAsisteDto {
     fecha_aceptado: string;
 
     @IsString()
+    hora_ingreso: string;
+
+    @IsString()
     @IsNotEmpty()
     @IsUUID()
     evento: string;

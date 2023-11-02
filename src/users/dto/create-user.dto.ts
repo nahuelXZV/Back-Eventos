@@ -15,6 +15,11 @@ export class UserCreateDto {
 
     @IsNotEmpty()
     @IsString()
+    @MinLength(3)
+    direccion: string;
+
+    @IsNotEmpty()
+    @IsString()
     @IsEmail()
     email: string;
 

@@ -12,10 +12,6 @@ export class CreateCompraDto {
 
     @IsNotEmpty()
     @IsString()
-    metodoPago: string;
-
-    @IsNotEmpty()
-    @IsString()
     usuario: string;
 
     @IsNotEmpty()
