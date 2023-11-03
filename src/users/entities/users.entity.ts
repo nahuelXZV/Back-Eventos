@@ -11,7 +11,7 @@ import { UsuarioSuscripcionEntity } from "./usuario-suscripcion.entity";
 import { FotoEventoEntity } from "../../eventos/entities/foto-evento.entity";
 import { CompraFotoEventoEntity } from "../../eventos/entities/compra-foto-evento.entity";
 
-@Entity({ name: 'usuario' })
+@Entity({ name: 'user' })
 export class UsersEntity extends BaseEntity implements IUser {
     @Column()
     nombre: string;
@@ -26,7 +26,7 @@ export class UsersEntity extends BaseEntity implements IUser {
     @Column()
     password: string;
 
-    @Column()
+    @Column({ nullable: true })
     direccion: string;
 
     @Column()

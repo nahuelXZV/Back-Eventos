@@ -7,7 +7,6 @@ import { CompraFotoEventoEntity } from './entities/compra-foto-evento.entity';
 import { EventoFotografoEntity } from './entities/evento-fotografo.entity';
 import { EventoEntity } from './entities/evento.entity';
 import { FotoEventoEntity } from './entities/foto-evento.entity';
-import { PrecioEntity } from './entities/precio.entity';
 import { AsisteService } from './services/asiste.service';
 import { CompraFotoEventoService } from './services/compra-foto-evento.service';
 import { CompraService } from './services/compra.service';
@@ -20,16 +19,14 @@ import { CompraController } from './controllers/compra.controller';
 import { EventoFotografoController } from './controllers/evento-fotografo.controller';
 import { EventoController } from './controllers/evento.controller';
 import { FotoEventoController } from './controllers/foto-evento.controller';
-import { PrecioService } from './services/precio.service';
-import { PrecioController } from './controllers/precio.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AsisteEntity, CompraEntity, CompraFotoEventoEntity, EventoFotografoEntity, EventoEntity, FotoEventoEntity, PrecioEntity]),
+    TypeOrmModule.forFeature([AsisteEntity, CompraEntity, CompraFotoEventoEntity, EventoFotografoEntity, EventoEntity, FotoEventoEntity,]),
     ProvidersModule
   ],
-  controllers: [AsisteController, CompraFotoEventoController, CompraController, EventoFotografoController, EventoController, FotoEventoController, PrecioController],
-  providers: [AsisteService, CompraFotoEventoService, CompraService, EventoFotografoService, EventoService, FotoEventoService, PrecioService],
+  controllers: [AsisteController, CompraFotoEventoController, CompraController, EventoFotografoController, EventoController, FotoEventoController,],
+  providers: [AsisteService, CompraFotoEventoService, CompraService, EventoFotografoService, EventoService, FotoEventoService,],
   exports: [AsisteService, CompraFotoEventoService, CompraService, EventoFotografoService, EventoService, FotoEventoService]
 })
 export class EventosModule { }
