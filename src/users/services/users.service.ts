@@ -37,7 +37,7 @@ export class UsersService {
             const user: UsersEntity = await this.userRepository.save({ ...rest, isOrganizador: false });
             const usuario: UsersEntity = await this.findOne(user.id);
             if (fotografo) {
-                const fotografoEntity = await this.fotografoRepository.save({ ...fotografo, usuario });
+                const fotografoEntity = await this.fotografoRepository.save({ ...fotografo, usuario, direccion: body.direccion });
                 usuario.fotografo = fotografoEntity;
                 console.log(usuario);
             }
