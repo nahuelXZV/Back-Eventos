@@ -29,6 +29,7 @@ export class AsisteService {
       asiste.usuario = usuarioEntity;
       asiste.fecha_aceptado = fecha_aceptado;
       const asisteSaved = await this.asisteRepository.save(asiste);
+      console.log(asisteSaved);
       return asisteSaved;
     } catch (error) {
       this.handlerError(error);
@@ -39,7 +40,6 @@ export class AsisteService {
     try {
       const asiste = await this.asisteRepository.find({ relations: ['evento', 'usuario'] });
       return asiste;
-
     } catch (error) {
       this.handlerError(error);
     }
@@ -60,7 +60,9 @@ export class AsisteService {
 
   async findAsisteBy(key: any, value: string) {
     try {
-      const asistentes = await this.asisteRepository.createQueryBuilder('asiste').leftJoinAndSelect('asiste.evento', 'evento').leftJoinAndSelect('asiste.usuario', 'usuario').where({ [key]: value }).getMany();
+      const asistentes = await this.asisteRepository.createQueryBuilder('asiste').leftJoinAndSelect('asiste.evento', 'evento').leftJoinAndSelect('asiste.usuario', 'usuario')
+        .leftJoinAndSelect('usuario.fotos', 'fotos')
+        .where({ [key]: value }).getMany();
       return asistentes;
     } catch (error) {
       this.handlerError(error);

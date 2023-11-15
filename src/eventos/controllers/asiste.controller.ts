@@ -9,6 +9,7 @@ export class AsisteController {
 
   @Post()
   create(@Body() createAsisteDto: CreateAsisteDto) {
+    console.log(createAsisteDto);
     return this.asisteService.create(createAsisteDto);
   }
 

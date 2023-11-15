@@ -29,6 +29,7 @@ export class EventoFotografoService {
       eventoFotografo.fotografo = fotografoEntity;
       eventoFotografo.fecha = fecha;
       const eventoFotografoSaved = await this.EventoFotografoRepository.save(eventoFotografo);
+      console.log(eventoFotografoSaved);
       return eventoFotografoSaved;
     } catch (error) {
       this.handlerError(error);
@@ -57,7 +58,9 @@ export class EventoFotografoService {
     try {
       console.log(key);
       console.log(value);
-      const eventoFotografo = await this.EventoFotografoRepository.createQueryBuilder('eventoFotografo').leftJoinAndSelect('eventoFotografo.fotografo', 'fotografo').leftJoinAndSelect('eventoFotografo.evento', 'evento').leftJoinAndSelect('fotografo.usuario', 'usuario').where({ [key]: value }).getMany();
+      const eventoFotografo = await this.EventoFotografoRepository.createQueryBuilder('eventoFotografo').leftJoinAndSelect('eventoFotografo.fotografo', 'fotografo').leftJoinAndSelect('eventoFotografo.evento', 'evento').leftJoinAndSelect('fotografo.usuario', 'usuario')
+        .leftJoinAndSelect('usuario.fotos', 'fotos')
+        .where({ [key]: value }).getMany();
       return eventoFotografo;
     } catch (error) {
       this.handlerError(error);

@@ -43,7 +43,7 @@ export class FotoEventoService {
         fotoUsuario.precioImpresa = +precioImpresa;
         fotoUsuario.evento = eventoEntity;
         fotoUsuario.fotografo = fotografoEntity;
-        fotoUsuario.tamaño = foto.size.toString() ?? null;
+        fotoUsuario.tamaño = '200x200';
         const newFoto = await this.fotoEventoRepository.save(fotoUsuario);
         const fotos = await this.recoknitionService.searchEventosUsuariosFaces(name);
         const usuariosId = this.getUsers(fotos);
@@ -128,6 +128,7 @@ export class FotoEventoService {
       if (user.tokenMobile) await this.notificationService.sendNotification({ url: `https://tus-recuerdos.vercel.app/eventos/${evento.id}`, token: user.tokenMobile });
     });
     await this.fotoEventoRepository.save(fotoEntity);
+    console.log(fotoEntity);
   }
 
   handlerError(error: any) {

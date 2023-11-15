@@ -25,6 +25,7 @@ export class RecoknitionService {
         for (const usuariosImage of usuariosImages) {
             const similarity = await this.compareFaces(eventoImage, usuariosImage);
             if (similarity >= 80) {
+                console.log('similarity', similarity);
                 matchedImages.push(usuariosImage);
             }
         }
